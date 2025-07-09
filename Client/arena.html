@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Arena</title>
+    <link rel="stylesheet" href="/arena.css">
+    <link rel="stylesheet" href="/navbar.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="/search" class="nav-brand">🎯 Pokemon Explorer</a>
+                <a href="/search" class="nav-link">Search</a>
+                <a href="/favorites" class="nav-link">Favorites</a>
+                <a href="/arena" class="nav-link">⚔️ Arena</a>
+            </div>
+            <div class="nav-user">
+                <span>Welcome, <span class="nav-username" id="navUsername">Loading...</span></span>
+                <button class="nav-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="arena-header">
+            <h1>⚔️ Pokemon Arena</h1>
+            <p class="arena-subtitle">Battle with your Pokemon and prove your skills!</p>
+        </div>
+
+        <div class="arena-container">
+            <div class="arena-options">
+                <div class="arena-card" onclick="navigateToVsBot()">
+                    <div class="card-icon">🤖</div>
+                    <h3>Fight vs Bot</h3>
+                    <p>Battle against AI-controlled Pokemon trainers</p>
+                    <div class="card-footer">
+                        <span class="difficulty">Easy • Medium • Hard</span>
+                    </div>
+                </div>
+
+                <div class="arena-card" onclick="navigateToRandomVsPlayer()">
+                    <div class="card-icon">🎲</div>
+                    <h3>Random Fight vs Player</h3>
+                    <p>Get matched with random players for epic battles</p>
+                    <div class="card-footer">
+                        <span class="status">Find Match</span>
+                    </div>
+                </div>
+
+                <div class="arena-card" onclick="navigateToFightHistory()">
+                    <div class="card-icon">📊</div>
+                    <h3>Fight History</h3>
+                    <p>View your past battles and track your progress</p>
+                    <div class="card-footer">
+                        <span class="stats" id="userStats">Loading stats...</span>
+                    </div>
+                </div>
+
+                <div class="arena-card" onclick="navigateToLeaderboard()">
+                    <div class="card-icon">🏆</div>
+                    <h3>Leaderboards</h3>
+                    <p>See the top trainers and climb the ranks</p>
+                    <div class="card-footer">
+                        <span class="rank" id="userRank">Loading rank...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="arena-info">
+                <div class="info-section">
+                    <h3>🎮 How Arena Works</h3>
+                    <ul>
+                        <li><strong>Build Your Team:</strong> Use Pokemon from your favorites collection</li>
+                        <li><strong>Choose Battle Mode:</strong> Fight bots or challenge other players</li>
+                        <li><strong>Earn Points:</strong> Win battles to climb the leaderboard</li>
+                        <li><strong>Track Progress:</strong> Review your fight history and improve</li>
+                    </ul>
+                </div>
+
+                <div class="info-section">
+                    <h3>⭐ Battle Tips</h3>
+                    <ul>
+                        <li>Type advantages matter - choose your Pokemon wisely</li>
+                        <li>Higher level Pokemon have better stats</li>
+                        <li>Practice against bots before challenging players</li>
+                        <li>Study your fight history to learn from defeats</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/navbar.js"></script>
+    <script src="/arena.js"></script>
+</body>
+</html>

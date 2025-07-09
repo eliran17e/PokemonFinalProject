@@ -15,6 +15,12 @@
     padding: 0 20px;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .nav-brand {
     color: white;
     font-size: 1.5rem;
@@ -25,6 +31,24 @@
 
 .nav-brand:hover {
     opacity: 0.9;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
 }
 
 .nav-user {
@@ -74,6 +98,12 @@ body {
         padding: 0 15px;
     }
     
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
     .nav-user {
         flex-direction: column;
         gap: 10px;
@@ -82,6 +112,11 @@ body {
     
     .nav-brand {
         font-size: 1.3rem;
+    }
+    
+    .nav-link {
+        font-size: 14px;
+        padding: 6px 12px;
     }
 }
 
@@ -96,6 +131,15 @@ body {
     
     .nav-brand {
         font-size: 1.2rem;
+    }
+    
+    .nav-links {
+        gap: 8px;
+    }
+    
+    .nav-link {
+        font-size: 13px;
+        padding: 5px 10px;
     }
     
     .nav-logout {

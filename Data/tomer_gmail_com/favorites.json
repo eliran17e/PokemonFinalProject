@@ -121,5 +121,379 @@
       "latest": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/25.ogg",
       "legacy": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/25.ogg"
     }
+  },
+  {
+    "id": 2,
+    "name": "ivysaur",
+    "sprites": {
+      "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+    },
+    "types": [
+      {
+        "type": {
+          "name": "grass"
+        }
+      },
+      {
+        "type": {
+          "name": "poison"
+        }
+      }
+    ],
+    "abilities": [
+      {
+        "ability": {
+          "name": "overgrow"
+        }
+      },
+      {
+        "ability": {
+          "name": "chlorophyll"
+        }
+      }
+    ],
+    "height": 10,
+    "weight": 130,
+    "base_experience": 142,
+    "stats": [
+      {
+        "stat": {
+          "name": "hp"
+        },
+        "base_stat": 60
+      },
+      {
+        "stat": {
+          "name": "attack"
+        },
+        "base_stat": 62
+      },
+      {
+        "stat": {
+          "name": "defense"
+        },
+        "base_stat": 63
+      },
+      {
+        "stat": {
+          "name": "special-attack"
+        },
+        "base_stat": 80
+      },
+      {
+        "stat": {
+          "name": "special-defense"
+        },
+        "base_stat": 80
+      },
+      {
+        "stat": {
+          "name": "speed"
+        },
+        "base_stat": 60
+      }
+    ],
+    "moves": [
+      {
+        "move": {
+          "name": "swords-dance"
+        }
+      },
+      {
+        "move": {
+          "name": "cut"
+        }
+      },
+      {
+        "move": {
+          "name": "bind"
+        }
+      },
+      {
+        "move": {
+          "name": "vine-whip"
+        }
+      },
+      {
+        "move": {
+          "name": "headbutt"
+        }
+      },
+      {
+        "move": {
+          "name": "tackle"
+        }
+      },
+      {
+        "move": {
+          "name": "body-slam"
+        }
+      },
+      {
+        "move": {
+          "name": "take-down"
+        }
+      },
+      {
+        "move": {
+          "name": "double-edge"
+        }
+      },
+      {
+        "move": {
+          "name": "growl"
+        }
+      }
+    ],
+    "cries": {
+      "latest": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/2.ogg",
+      "legacy": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/2.ogg"
+    }
+  },
+  {
+    "id": 6,
+    "name": "charizard",
+    "sprites": {
+      "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "types": [
+      {
+        "type": {
+          "name": "fire"
+        }
+      },
+      {
+        "type": {
+          "name": "flying"
+        }
+      }
+    ],
+    "abilities": [
+      {
+        "ability": {
+          "name": "blaze"
+        }
+      },
+      {
+        "ability": {
+          "name": "solar-power"
+        }
+      }
+    ],
+    "height": 17,
+    "weight": 905,
+    "base_experience": 240,
+    "stats": [
+      {
+        "stat": {
+          "name": "hp"
+        },
+        "base_stat": 78
+      },
+      {
+        "stat": {
+          "name": "attack"
+        },
+        "base_stat": 84
+      },
+      {
+        "stat": {
+          "name": "defense"
+        },
+        "base_stat": 78
+      },
+      {
+        "stat": {
+          "name": "special-attack"
+        },
+        "base_stat": 109
+      },
+      {
+        "stat": {
+          "name": "special-defense"
+        },
+        "base_stat": 85
+      },
+      {
+        "stat": {
+          "name": "speed"
+        },
+        "base_stat": 100
+      }
+    ],
+    "moves": [
+      {
+        "move": {
+          "name": "mega-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "fire-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "thunder-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "scratch"
+        }
+      },
+      {
+        "move": {
+          "name": "swords-dance"
+        }
+      },
+      {
+        "move": {
+          "name": "cut"
+        }
+      },
+      {
+        "move": {
+          "name": "wing-attack"
+        }
+      },
+      {
+        "move": {
+          "name": "fly"
+        }
+      },
+      {
+        "move": {
+          "name": "mega-kick"
+        }
+      },
+      {
+        "move": {
+          "name": "headbutt"
+        }
+      }
+    ],
+    "cries": {
+      "latest": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/6.ogg",
+      "legacy": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/6.ogg"
+    }
+  },
+  {
+    "id": 151,
+    "name": "mew",
+    "sprites": {
+      "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
+    },
+    "types": [
+      {
+        "type": {
+          "name": "psychic"
+        }
+      }
+    ],
+    "abilities": [
+      {
+        "ability": {
+          "name": "synchronize"
+        }
+      }
+    ],
+    "height": 4,
+    "weight": 40,
+    "base_experience": 270,
+    "stats": [
+      {
+        "stat": {
+          "name": "hp"
+        },
+        "base_stat": 100
+      },
+      {
+        "stat": {
+          "name": "attack"
+        },
+        "base_stat": 100
+      },
+      {
+        "stat": {
+          "name": "defense"
+        },
+        "base_stat": 100
+      },
+      {
+        "stat": {
+          "name": "special-attack"
+        },
+        "base_stat": 100
+      },
+      {
+        "stat": {
+          "name": "special-defense"
+        },
+        "base_stat": 100
+      },
+      {
+        "stat": {
+          "name": "speed"
+        },
+        "base_stat": 100
+      }
+    ],
+    "moves": [
+      {
+        "move": {
+          "name": "pound"
+        }
+      },
+      {
+        "move": {
+          "name": "mega-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "pay-day"
+        }
+      },
+      {
+        "move": {
+          "name": "fire-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "ice-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "thunder-punch"
+        }
+      },
+      {
+        "move": {
+          "name": "razor-wind"
+        }
+      },
+      {
+        "move": {
+          "name": "swords-dance"
+        }
+      },
+      {
+        "move": {
+          "name": "cut"
+        }
+      },
+      {
+        "move": {
+          "name": "whirlwind"
+        }
+      }
+    ],
+    "cries": {
+      "latest": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/151.ogg",
+      "legacy": "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/151.ogg"
+    }
   }
 ]

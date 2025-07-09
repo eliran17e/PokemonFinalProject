@@ -33,7 +33,6 @@ const PROJECT_INFO_FILE = path.join(DATA_FOLDER, 'project-info.json');
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
-
 // Initialize data folder and files if they don't exist
 async function initializeDataFolder() {
   try {
@@ -249,6 +248,42 @@ app.get('/pokemon/:id', (req, res) => {
     return res.redirect('/login');
   }
   res.sendFile(path.join(__dirname, 'Client', 'pokemonDetails.html'));
+});
+
+// Arena routes (all protected)
+app.get('/arena', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(__dirname, 'Client', 'arena.html'));
+});
+
+app.get('/arena/vs-bot', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(__dirname, 'Client', 'arenaVsBot.html'));
+});
+
+app.get('/arena/random-vs-player', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(__dirname, 'Client', 'arenaRandomVsPlayer.html'));
+});
+
+app.get('/arena/fight-history', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(__dirname, 'Client', 'arenaFightHistory.html'));
+});
+
+app.get('/arena/leaderboard', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(__dirname, 'Client', 'arenaLeaderboard.html'));
 });
 
 // API route to get project information
@@ -560,15 +595,6 @@ app.get('/api/youtube/:pokemonName', async (req, res) => {
     console.log('Fetching YouTube videos for:', pokemonName);
     console.log('Using API key:', YOUTUBE_API_KEY ? 'Key present' : 'No key');
     
-    // Check if API key is configured
-    if (!YOUTUBE_API_KEY || YOUTUBE_API_KEY === 'YOUR_YOUTUBE_API_KEY_HERE' || YOUTUBE_API_KEY.trim() === '') {
-      console.log('YouTube API key not properly configured');
-      return res.json({ 
-        videos: [], 
-        error: 'YouTube API key not configured. Please set your API key in the server.' 
-      });
-    }
-    
     // Search for Pokemon-related videos
     const searchQuery = `${pokemonName} pokemon`;
     const searchUrl = `${YOUTUBE_API_BASE_URL}/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&maxResults=6&order=relevance&key=${YOUTUBE_API_KEY}`;
@@ -630,5 +656,10 @@ initializeDataFolder().then(() => {
     console.log('  GET /search - Search page (protected)');
     console.log('  GET /favorites - Favorites page (protected)');
     console.log('  GET /pokemon/:id - Pokemon details page (protected)');
+    console.log('  GET /arena - Arena main page (protected)');
+    console.log('  GET /arena/vs-bot - Arena vs Bot (protected)');
+    console.log('  GET /arena/random-vs-player - Arena vs Player (protected)');
+    console.log('  GET /arena/fight-history - Fight History (protected)');
+    console.log('  GET /arena/leaderboard - Leaderboard (protected)');
   });
 });

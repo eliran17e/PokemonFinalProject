@@ -1,0 +1,258 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #333;
+}
+
+.main-content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.arena-header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.arena-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background-size: 300% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.arena-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.arena-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.arena-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.arena-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.arena-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.arena-card:hover::before {
+    left: 100%;
+}
+
+.arena-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.arena-card h3 {
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.arena-card p {
+    color: #7f8c8d;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.card-footer {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #ecf0f1;
+}
+
+.difficulty {
+    color: #f39c12;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.status {
+    color: #e74c3c;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.stats {
+    color: #3498db;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.rank {
+    color: #9b59b6;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.arena-info {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.info-section {
+    margin-bottom: 30px;
+}
+
+.info-section:last-child {
+    margin-bottom: 0;
+}
+
+.info-section h3 {
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.info-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-section li {
+    padding: 8px 0;
+    color: #555;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 20px;
+}
+
+.info-section li::before {
+    content: '✨';
+    position: absolute;
+    left: 0;
+    top: 8px;
+}
+
+.info-section strong {
+    color: #2c3e50;
+}
+
+/* Responsive design */
+@media screen and (max-width: 968px) {
+    .arena-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .arena-options {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .arena-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .arena-card {
+        padding: 20px;
+    }
+    
+    .card-icon {
+        font-size: 2.5rem;
+    }
+    
+    .arena-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .arena-header h1 {
+        font-size: 2rem;
+    }
+    
+    .arena-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Loading and error states */
+.loading {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+.error {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+/* Special effects for different card types */
+.arena-card:nth-child(1):hover {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(255, 255, 255, 0.95));
+}
+
+.arena-card:nth-child(2):hover {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(255, 255, 255, 0.95));
+}
+
+.arena-card:nth-child(3):hover {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(255, 255, 255, 0.95));
+}
+
+.arena-card:nth-child(4):hover {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(255, 255, 255, 0.95));
+}

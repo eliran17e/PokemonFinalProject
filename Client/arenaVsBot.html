@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena - Fight vs Bot</title>
+    <link rel="stylesheet" href="/arenaVsBot.css">
+    <link rel="stylesheet" href="/navbar.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="/search" class="nav-brand">🎯 Pokemon Explorer</a>
+                <a href="/search" class="nav-link">Search</a>
+                <a href="/favorites" class="nav-link">Favorites</a>
+                <a href="/arena" class="nav-link active">⚔️ Arena</a>
+            </div>
+            <div class="nav-user">
+                <span>Welcome, <span class="nav-username" id="navUsername">Loading...</span></span>
+                <button class="nav-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Pokemon Selection Phase -->
+        <div class="selection-phase" id="selectionPhase">
+            <div class="phase-header">
+                <h1>🤖 Fight vs Bot</h1>
+                <p>Choose your Pokemon from your favorites collection</p>
+                <a href="/arena" class="back-link">← Back to Arena</a>
+            </div>
+
+            <div class="favorites-grid" id="favoritesGrid">
+                <div class="loading-message">Loading your Pokemon...</div>
+            </div>
+        </div>
+
+        <!-- Battle Setup Phase -->
+        <div class="battle-setup-phase" id="battleSetupPhase" style="display: none;">
+            <div class="phase-header">
+                <h1>⚔️ Battle Setup</h1>
+                <p>Your Pokemon vs Bot's Pokemon</p>
+                <button class="back-btn" onclick="backToSelection()">← Choose Different Pokemon</button>
+            </div>
+
+            <div class="battle-setup">
+                <div class="pokemon-card player-pokemon">
+                    <div class="card-header">
+                        <h3>Your Pokemon</h3>
+                        <div class="pokemon-level">Level 50</div>
+                    </div>
+                    <div class="pokemon-image">
+                        <img id="playerPokemonImage" src="" alt="Player Pokemon">
+                    </div>
+                    <div class="pokemon-info">
+                        <h4 id="playerPokemonName">Pokemon Name</h4>
+                        <div class="pokemon-types" id="playerPokemonTypes"></div>
+                    </div>
+                    <div class="pokemon-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">HP</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill hp" id="playerHP"></div>
+                            </div>
+                            <span class="stat-value" id="playerHPValue">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Attack</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill attack" id="playerAttack"></div>
+                            </div>
+                            <span class="stat-value" id="playerAttackValue">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Defense</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill defense" id="playerDefense"></div>
+                            </div>
+                            <span class="stat-value" id="playerDefenseValue">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Speed</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill speed" id="playerSpeed"></div>
+                            </div>
+                            <span class="stat-value" id="playerSpeedValue">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vs-section">
+                    <div class="vs-text">VS</div>
+                    <button class="start-battle-btn" id="startBattleBtn" onclick="startBattle()">
+                        ⚔️ Start Battle
+                    </button>
+                </div>
+
+                <div class="pokemon-card bot-pokemon">
+                    <div class="card-header">
+                        <h3>Bot's Pokemon</h3>
+                        <div class="pokemon-level">Level 50</div>
+                    </div>
+                    <div class="pokemon-image">
+                        <img id="botPokemonImage" src="" alt="Bot Pokemon">
+                    </div>
+                    <div class="pokemon-info">
+                        <h4 id="botPokemonName">Pokemon Name</h4>
+                        <div class="pokemon-types" id="botPokemonTypes"></div>
+                    </div>
+                    <div class="pokemon-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">HP</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill hp" id="botHP"></div>
+                            </div>
+                            <span class="stat-value" id="botHPValue">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Attack</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill attack" id="botAttack"></div>
+                            </div>
+                            <span class="stat-value" id="botAttackValue">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Defense</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill defense" id="botDefense"></div>
+                            </div>
+                            <span class="stat-value" id="botDefenseValue">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Speed</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill speed" id="botSpeed"></div>
+                            </div>
+                            <span class="stat-value" id="botSpeedValue">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Battle Animation Phase -->
+        <div class="battle-animation-phase" id="battleAnimationPhase" style="display: none;">
+            <div class="battle-arena">
+                <div class="countdown" id="countdown">
+                    <div class="countdown-number" id="countdownNumber">3</div>
+                </div>
+                
+                <div class="battle-pokemon-container">
+                    <div class="battle-pokemon player-side">
+                        <img id="battlePlayerImage" src="" alt="Player Pokemon" class="battle-pokemon-image">
+                        <div class="pokemon-name-battle" id="battlePlayerName">Pokemon</div>
+                    </div>
+                    
+                    <div class="battle-vs">
+                        <div class="vs-text-battle">VS</div>
+                    </div>
+                    
+                    <div class="battle-pokemon bot-side">
+                        <img id="battleBotImage" src="" alt="Bot Pokemon" class="battle-pokemon-image">
+                        <div class="pokemon-name-battle" id="battleBotName">Pokemon</div>
+                    </div>
+                </div>
+
+                <div class="fight-text" id="fightText" style="display: none;">
+                    FIGHT!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/navbar.js"></script>
+    <script src="/arenaVsBot.js"></script>
+</body>
+</html>

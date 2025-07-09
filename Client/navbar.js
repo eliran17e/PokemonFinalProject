@@ -60,12 +60,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load user info for navbar
     loadUserInfo();
     
+    // Set active navigation link
+    setActiveNavLink();
+    
     // Add event listener for logout button if it exists
     const logoutBtn = document.querySelector('.nav-logout');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logout);
     }
 });
+
+// Set active navigation link based on current page
+function setActiveNavLink() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Remove active class from all links
+    navLinks.forEach(link => link.classList.remove('active'));
+    
+    // Add active class to current page link
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (currentPath === href || 
+            (currentPath.startsWith('/pokemon/') && href === '/search') ||
+            (currentPath.startsWith('/arena') && href === '/arena')) {
+            link.classList.add('active');
+        }
+    });
+}
 
 // Helper function to check if user is authenticated (can be used by other scripts)
 async function checkAuthentication() {
