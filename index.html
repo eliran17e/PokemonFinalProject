@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Search</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>Pokemon Search</h1>
+    <div>
+        <label for="search-type">Search By:</label>
+        <select id="search-type">
+            <option value="id">ID</option>
+            <option value="type">Type</option>
+            <option value="ability">Ability</option>
+            <option value="name">Name</option>
+        </select>
+        <input type="text" id="search-input" placeholder="Enter your search term">
+        <button id="search-button" onclick="searchBtnClick()">Search</button>
+        <button id="Favorites" onclick="showFavorites()">Show Favorites</button>
+    </div>
+    <div id="search-results">
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>ID</th>
+                <th>Ability</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="search-results-body">
+            
+            </tbody>
+    
+        </table>
+    </div>
+    <div id="loader" class="loader" style="display:none">
+                <img src="loading.gif" alt="">
+            </div>
+</body>
+<script src="index.js"></script>
+
+</html>

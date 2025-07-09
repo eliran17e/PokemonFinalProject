@@ -1,0 +1,111 @@
+/* Reset some defaults */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f8fc;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Page title */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Container for search controls */
+div {
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+select, input[type="text"] {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+button {
+    padding: 8px 14px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#loader {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#loader img {
+    width: 60px;
+    height: 60px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+td img {
+    width: 60px;
+    height: 60px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    table, tbody, th, td, tr {
+        display: block;
+    }
+
+    tr {
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ccc;
+    }
+
+    td {
+        text-align: left;
+        padding: 10px;
+    }
+
+    td::before {
+        font-weight: bold;
+        display: inline-block;
+        width: 100px;
+    }
+
+    td:nth-of-type(2)::before { content: "Name"; }
+    td:nth-of-type(3)::before { content: "Type"; }
+    td:nth-of-type(4)::before { content: "ID"; }
+    td:nth-of-type(5)::before { content: "Ability"; }
+}

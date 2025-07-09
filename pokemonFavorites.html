@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Pokemons</title>
+    <link rel="stylesheet" href="pokemonFavorites.css">
+</head>
+<body>
+
+    <div>
+        <button id="returnHomePage" onclick="returnHomePage()">Return to Home Page</button>
+        <button id="sortByName" onclick="sortPokemonsbyName()">Sort by Name</button>
+        <button id="sortByID" onclick="sortPokemonsbyId()">Sort by ID</button>
+        <button id="Download" onclick="downloadPokemons()">Download All Favorites</button>
+
+    </div>
+    <div>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>ID</th>
+                <th>Ability</th>
+            </tr>
+        </thead>
+        <tbody id="favorite-pokemons">
+            <!-- Favorites will be populated here -->
+        </tbody>
+    </div>
+</body>
+<script src="pokemonFavorites.js"></script>
+</html>
