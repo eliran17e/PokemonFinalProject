@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Pokemons</title>
+    <link rel="stylesheet" href="pokemonFavorites.css">
+    <link rel="stylesheet" href="navbar.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/search" class="nav-brand">🎯 Pokemon Explorer</a>
+            <div class="nav-user">
+                <span>Welcome, <span class="nav-username" id="navUsername">Loading...</span></span>
+                <button class="nav-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div>
+            <button id="returnHomePage" onclick="returnHomePage()">Return to Search</button>
+            <button id="sortByName" onclick="sortPokemonsbyName()">Sort by Name</button>
+            <button id="sortByID" onclick="sortPokemonsbyId()">Sort by ID</button>
+            <button id="Download" onclick="downloadPokemons()">Download All Favorites</button>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>ID</th>
+                        <th>Ability</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="favorite-pokemons">
+                    <!-- Favorites will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="navbar.js"></script>
+    <script src="pokemonFavorites.js"></script>
+</body>
+</html>

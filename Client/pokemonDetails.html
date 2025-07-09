@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pokémon Details</title>
+  <link rel="stylesheet" href="/pokemonDetails.css">
+  <link rel="stylesheet" href="/navbar.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+      <div class="nav-container">
+          <a href="/search" class="nav-brand">🎯 Pokemon Explorer</a>
+          <div class="nav-user">
+              <span>Welcome, <span class="nav-username" id="navUsername">Loading...</span></span>
+              <button class="nav-logout" onclick="logout()">Logout</button>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Pokémon Details</h1>
+    <div id="details-container"></div>
+    <button onclick="goBack()">Back</button>
+  </div>
+
+  <script src="/navbar.js"></script>
+  <script src="/pokemonDetails.js"></script>
+</body>
+</html>

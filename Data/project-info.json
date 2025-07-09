@@ -1,0 +1,51 @@
+{
+    "projectName": "Pokemon Explorer",
+    "description": "A comprehensive Pokemon discovery platform where users can search, explore, and collect their favorite Pokemon. Built with modern web technologies and featuring advanced search capabilities, detailed Pokemon information, and personalized favorites management.",
+    "version": "1.0.0",
+    "technologies": [
+      "Node.js",
+      "Express.js",
+      "JavaScript (ES6+)",
+      "HTML5",
+      "CSS3",
+      "Pokemon API",
+      "Session Management",
+      "File-based Database"
+    ],
+    "features": [
+      "Advanced Pokemon Search (by ID, name, type, ability)",
+      "Detailed Pokemon Information Display",
+      "Personal Favorites Collection",
+      "User Authentication & Registration",
+      "Responsive Design",
+      "Data Export Functionality",
+      "Session-based Security"
+    ],
+    "submittedBy": [
+      {
+        "name": "Your Name Here",
+        "role": "Full-Stack Developer",
+        "email": "your.email@example.com",
+        "github": "https://github.com/yourusername",
+        "contributions": ["Frontend Development", "Backend API", "Database Design", "UI/UX Design"]
+      },
+      {
+        "name": "Partner Name",
+        "role": "Frontend Developer",
+        "email": "partner.email@example.com",
+        "github": "https://github.com/partnerusername",
+        "contributions": ["CSS Styling", "JavaScript Functions", "Responsive Design", "Testing"]
+      }
+    ],
+    "course": "Web Development Course",
+    "institution": "Your University/School",
+    "semester": "Spring 2025",
+    "projectType": "Final Project",
+    "startDate": "2025-01-01",
+    "completionDate": "2025-07-09",
+    "apiUsed": {
+      "name": "PokeAPI",
+      "url": "https://pokeapi.co/",
+      "description": "RESTful Pokemon API providing comprehensive Pokemon data"
+    }
+  }

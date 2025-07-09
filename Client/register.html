@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Pokemon Project</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        <h1>Register</h1>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required maxlength="50">
+                <div id="nameError" class="error"></div>
+                <div class="help-text">Maximum 50 characters, letters only</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required minlength="7" maxlength="15">
+                <div id="passwordError" class="error"></div>
+                <div class="help-text">7-15 characters with 1 uppercase, 1 lowercase, and 1 special character</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Re-enter Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div id="confirmPasswordError" class="error"></div>
+            </div>
+            
+            <div class="password-strength">
+                <div class="strength-bar">
+                    <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <div class="strength-text" id="strengthText">Password strength</div>
+            </div>
+            
+            <button type="submit" class="btn" id="registerBtn">Register</button>
+            <div class="loading" id="loading">Creating account...</div>
+            <div id="message"></div>
+        </form>
+        
+        <div class="link-container">
+            <p>Already have an account? <a href="/login">Login here</a></p>
+        </div>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>
