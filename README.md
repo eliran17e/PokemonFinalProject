@@ -12,6 +12,7 @@ A comprehensive Pokemon discovery platform where users can search, explore, and 
 - [API Endpoints](#api-endpoints)
 - [Middleware](#middleware)
 - [Database Structure](#database-structure)
+- [How to Use](#how-to-use)
 - [Team](#team)
 - [License](#license)
 
@@ -296,19 +297,6 @@ express-session({
 - `favorites.json` - Optimized Pokemon data for display and battles
 - `battle-history.json` - Complete battle records
 
-## 👥 Team
-
-| Name | Email | GitHub | Role |
-|------|-------|--------|------|
-| **Tomer Harari** | tomerdb@gmail.com | [@tomerdb](https://github.com/tomerdb) | Full-Stack Developer |
-| **Eliran Elisha** | eliran17eli@gmail.com | [@eliran17e](https://github.com/eliran17e) | Full-Stack Developer |
-
-### Academic Information
-- **Course:** Web Development Course
-- **Institution:** Tel-Hai Academic College
-- **Semester:** Spring 2025
-- **Project Type:** Final Project
-
 ## 🎮 How to Use
 
 ### Getting Started
@@ -331,6 +319,19 @@ express-session({
 - Real-time multiplayer battle system
 - Comprehensive statistics and battle history tracking
 - Export your favorite Pokemon data as JSON
+
+## 👥 Team
+
+| Name | Email | GitHub | Role |
+|------|-------|--------|------|
+| **Tomer Harari** | tomerdb@gmail.com | [@tomerdb](https://github.com/tomerdb) | Full-Stack Developer |
+| **Eliran Elisha** | eliran17eli@gmail.com | [@eliran17e](https://github.com/eliran17e) | Full-Stack Developer |
+
+### Academic Information
+- **Course:** Web Development Course
+- **Institution:** Tel-Hai Academic College
+- **Semester:** Spring 2025
+- **Project Type:** Final Project
 
 ## 📄 License
 
