@@ -707,3 +707,128 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
 }
+
+.battle-results .player-name {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+.battle-results .results-title.victory {
+    color: #27ae60;
+}
+
+.battle-results .results-title.defeat {
+    color: #e74c3c;
+}
+
+.battle-results .results-title.draw {
+    color: #f39c12;
+}
+
+.score-card.draw {
+    border: 3px solid #f39c12;
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), white);
+}
+
+.score-card.draw .final-score {
+    background: rgba(243, 156, 18, 0.2);
+    color: #f39c12;
+    border: 2px solid #f39c12;
+}
+
+/* Loading and error message improvements */
+.loading-message, .error-message {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.loading-message {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border: 2px solid rgba(52, 152, 219, 0.3);
+}
+
+.error-message {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 2px solid rgba(231, 76, 60, 0.3);
+}
+
+.loading-message div:first-child {
+    font-size: 2rem;
+    animation: pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+/* Player selection improvements */
+.player-item.selected {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(255, 255, 255, 0.95));
+    border-color: #e74c3c;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.25);
+}
+
+.player-item:hover:not(.selected) {
+    border-color: #3498db;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), white);
+}
+
+/* Challenge button states */
+.fight-btn:disabled {
+    background: #bdc3c7 !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+.fight-btn:not(:disabled):hover {
+    background: linear-gradient(45deg, #c0392b, #a93226);
+}
+
+/* Online status indicator */
+.status-indicator.offline {
+    background: #95a5a6;
+    animation: none;
+}
+
+/* Responsive improvements */
+@media screen and (max-width: 768px) {
+    .player-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .player-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .player-stats {
+        justify-content: center;
+    }
+    
+    .battle-results {
+        margin: 5px;
+        padding: 20px 15px;
+        max-height: 95vh;
+    }
+    
+    .battle-scores {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .vs-results {
+        order: 2;
+        font-size: 1.5rem;
+    }
+}

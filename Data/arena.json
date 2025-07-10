@@ -1,0 +1,24 @@
+{
+  "players": {},
+  "battles": [],
+  "onlinePlayers": [
+    {
+      "id": "1752066430592",
+      "name": "Tomer Harari",
+      "email": "tomer@gmail.com",
+      "lastSeen": "2025-07-10T10:33:24.328Z",
+      "wins": 0,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "id": "1752143149639",
+      "name": "Eliran",
+      "email": "eliran@gmail.com",
+      "lastSeen": "2025-07-10T10:33:27.293Z",
+      "wins": 0,
+      "losses": 0,
+      "draws": 0
+    }
+  ]
+}

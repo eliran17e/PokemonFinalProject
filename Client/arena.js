@@ -26,19 +26,17 @@ async function loadUserStats() {
     const statsElement = document.getElementById('userStats');
     
     try {
-        // This will be implemented when we create the backend for arena stats
-        // For now, we'll show placeholder data
         const response = await fetch('/api/arena/stats');
         
         if (response.ok) {
             const stats = await response.json();
             displayUserStats(stats);
         } else {
-            // Placeholder stats for now
+            // Show placeholder if not available
             displayPlaceholderStats();
         }
     } catch (error) {
-        console.log('Arena stats not available yet, showing placeholder');
+        console.error('Error loading user stats:', error);
         displayPlaceholderStats();
     }
 }
@@ -48,54 +46,68 @@ async function loadUserRank() {
     const rankElement = document.getElementById('userRank');
     
     try {
-        // This will be implemented when we create the backend for leaderboard
-        // For now, we'll show placeholder data
         const response = await fetch('/api/arena/rank');
         
         if (response.ok) {
             const rank = await response.json();
             displayUserRank(rank);
         } else {
-            // Placeholder rank for now
             displayPlaceholderRank();
         }
     } catch (error) {
-        console.log('Arena rank not available yet, showing placeholder');
+        console.error('Error loading user rank:', error);
         displayPlaceholderRank();
     }
 }
 
-// Display user statistics
+// Display user statistics (only from player vs player battles)
 function displayUserStats(stats) {
     const statsElement = document.getElementById('userStats');
-    statsElement.textContent = `${stats.wins}W - ${stats.losses}L`;
+    const totalBattles = stats.wins + stats.losses + stats.draws;
+    
+    if (totalBattles === 0) {
+        statsElement.textContent = 'No PvP battles yet';
+        statsElement.title = 'Player vs Player battle statistics (Bot battles not counted)';
+    } else {
+        statsElement.textContent = `${stats.wins}W - ${stats.losses}L - ${stats.draws}D (PvP)`;
+        statsElement.title = `Player vs Player: ${stats.wins} wins, ${stats.losses} losses, ${stats.draws} draws`;
+    }
+    
     statsElement.classList.remove('loading');
 }
 
-// Display user rank
+// Display user rank (only from player vs player battles)
 function displayUserRank(rank) {
     const rankElement = document.getElementById('userRank');
-    rankElement.textContent = `Rank #${rank.position}`;
+    
+    if (rank.position === 'Unranked') {
+        rankElement.textContent = 'Unranked (PvP)';
+        rankElement.title = 'Ranking based on Player vs Player battles only';
+    } else {
+        rankElement.textContent = `Rank #${rank.position} (PvP)`;
+        rankElement.title = `Player vs Player ranking: #${rank.position} out of ${rank.totalPlayers} players`;
+    }
+    
     rankElement.classList.remove('loading');
 }
 
-// Placeholder functions (to be removed when backend is implemented)
+// Placeholder functions (for when backend is not available)
 function displayPlaceholderStats() {
     const statsElement = document.getElementById('userStats');
-    statsElement.textContent = '0W - 0L';
+    statsElement.textContent = 'No PvP battles yet';
+    statsElement.title = 'Player vs Player battle statistics (Bot battles not counted)';
     statsElement.classList.remove('loading');
 }
 
 function displayPlaceholderRank() {
     const rankElement = document.getElementById('userRank');
-    rankElement.textContent = 'Unranked';
+    rankElement.textContent = 'Unranked (PvP)';
+    rankElement.title = 'Ranking based on Player vs Player battles only';
     rankElement.classList.remove('loading');
 }
 
 // Add keyboard navigation support
 document.addEventListener('keydown', function(e) {
-    const cards = document.querySelectorAll('.arena-card');
-    
     switch(e.key) {
         case '1':
             navigateToVsBot();
@@ -164,5 +176,16 @@ style.textContent = `
         position: relative;
         overflow: hidden;
     }
+    
+    .loading {
+        color: #95a5a6;
+        font-style: italic;
+    }
 `;
 document.head.appendChild(style);
+
+// Auto-refresh stats every 30 seconds
+setInterval(() => {
+    loadUserStats();
+    loadUserRank();
+}, 30000);

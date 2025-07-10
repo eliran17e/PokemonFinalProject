@@ -5,5 +5,12 @@
     "email": "tomer@gmail.com",
     "password": "aA!1234",
     "createdAt": "2025-07-09T13:07:10.592Z"
+  },
+  {
+    "id": "1752143149639",
+    "name": "Eliran",
+    "email": "eliran@gmail.com",
+    "password": "aA!1234",
+    "createdAt": "2025-07-10T10:25:49.639Z"
   }
 ]
