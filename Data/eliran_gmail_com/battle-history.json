@@ -1,0 +1,202 @@
+[
+  {
+    "id": "1752158569795",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 151,
+      "name": "mew",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
+    },
+    "player2Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player1Score": 90.82,
+    "player2Score": 97.69,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:42:49.795Z"
+  },
+  {
+    "id": "1752158588362",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 2,
+      "name": "ivysaur",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+    },
+    "player2Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player1Score": 58.27,
+    "player2Score": 111.84,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:43:08.362Z"
+  },
+  {
+    "id": "1752158612428",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 151,
+      "name": "mew",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
+    },
+    "player2Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player1Score": 101.76,
+    "player2Score": 99.83,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:43:32.428Z"
+  },
+  {
+    "id": "1752158656723",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player2Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player1Score": 81.53,
+    "player2Score": 100.62,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:44:16.723Z"
+  },
+  {
+    "id": "1752158669996",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 151,
+      "name": "mew",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
+    },
+    "player2Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player1Score": 99.88,
+    "player2Score": 105.85,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:44:29.996Z"
+  },
+  {
+    "id": "1752158681646",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player2Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player1Score": 86.44,
+    "player2Score": 101.47,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:44:41.646Z"
+  },
+  {
+    "id": "1752158822202",
+    "player1Id": "1752143149639",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 33,
+      "name": "nidorino",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/33.png"
+    },
+    "player2Pokemon": {
+      "id": 25,
+      "name": "pikachu",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    },
+    "player1Score": 61.02,
+    "player2Score": 40.31,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:47:02.202Z"
+  },
+  {
+    "id": "1752158833515",
+    "player1Id": "1752143149639",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 55,
+      "name": "golduck",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png"
+    },
+    "player2Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player1Score": 79.31,
+    "player2Score": 80.47,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:47:13.515Z"
+  },
+  {
+    "id": "1752159095153",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 2,
+      "name": "ivysaur",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+    },
+    "player2Pokemon": {
+      "id": 55,
+      "name": "golduck",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png"
+    },
+    "player1Score": 55.08,
+    "player2Score": 86.07,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:51:35.153Z"
+  },
+  {
+    "id": "1752159576266",
+    "player1Id": "1752066430592",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 146,
+      "name": "moltres",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"
+    },
+    "player2Pokemon": {
+      "id": 55,
+      "name": "golduck",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png"
+    },
+    "player1Score": 88.9,
+    "player2Score": 70.98,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T14:59:36.266Z"
+  }
+]

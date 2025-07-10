@@ -1,0 +1,64 @@
+{
+  "players": {
+    "1752066430592": {
+      "wins": 0,
+      "losses": 2,
+      "draws": 0
+    },
+    "1752143149639": {
+      "wins": 2,
+      "losses": 0,
+      "draws": 0
+    }
+  },
+  "battles": [],
+  "onlinePlayers": [
+    {
+      "id": "1752066430592",
+      "name": "Tomer Harari",
+      "email": "tomer@gmail.com",
+      "lastSeen": "2025-07-10T14:10:39.129Z",
+      "wins": 0,
+      "losses": 2,
+      "draws": 0
+    },
+    {
+      "id": "1752143149639",
+      "name": "Eliran",
+      "email": "eliran@gmail.com",
+      "lastSeen": "2025-07-10T14:10:40.897Z",
+      "wins": 2,
+      "losses": 0,
+      "draws": 0
+    }
+  ]
+}prites/pokemon/151.png"
+      },
+      "player1Score": 79.88,
+      "player2Score": 109.45,
+      "result": "player2_wins",
+      "battleType": "vs-player",
+      "timestamp": "2025-07-10T14:10:40.897Z"
+    }
+  ],
+  "onlinePlayers": [
+    {
+      "id": "1752143149639",
+      "name": "Eliran",
+      "email": "eliran@gmail.com",
+      "lastSeen": "2025-07-10T14:10:33.413Z",
+      "wins": 2,
+      "losses": 0,
+      "draws": 0
+    },
+    {
+      "id": "1752066430592",
+      "name": "Tomer Harari",
+      "email": "tomer@gmail.com",
+      "lastSeen": "2025-07-10T14:10:39.129Z",
+      "wins": 0,
+      "losses": 2,
+      "draws": 0
+    }
+  ]
+}

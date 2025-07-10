@@ -61,18 +61,23 @@ async function initializeDataFolder() {
       console.log('Created project-info.json file');
     }
     
+    // Enhanced arena file initialization
     try {
-      await fs.access(ARENA_FILE);
-    } catch {
-      // Create arena.json if it doesn't exist
-      const defaultArenaData = {
-        players: {},
-        battles: [],
-        onlinePlayers: []
-      };
+      const arenaData = await getArenaData();
+      
+      // Ensure arena file exists with proper structure
+      await fs.writeFile(ARENA_FILE, JSON.stringify(arenaData, null, 2));
+      console.log('✅ Arena file initialized/validated');
+      console.log(`📊 Loaded arena with ${Object.keys(arenaData.players).length} players and ${arenaData.battles.length} battles`);
+      
+    } catch (arenaError) {
+      console.error('❌ Error initializing arena file:', arenaError);
+      // Create fresh arena file
+      const defaultArenaData = createDefaultArenaData();
       await fs.writeFile(ARENA_FILE, JSON.stringify(defaultArenaData, null, 2));
-      console.log('Created arena.json file');
+      console.log('Created fresh arena.json file');
     }
+    
   } catch (error) {
     console.error('Error initializing data folder:', error);
   }
@@ -103,68 +108,250 @@ async function saveUsers(users) {
 async function getArenaData() {
   try {
     const data = await fs.readFile(ARENA_FILE, 'utf8');
-    return JSON.parse(data);
+    
+    // Check if data is empty or corrupted
+    if (!data || data.trim().length === 0) {
+      console.log('⚠️ Arena file is empty, creating default data');
+      return createDefaultArenaData();
+    }
+    
+    try {
+      const parsedData = JSON.parse(data);
+      
+      // Validate structure and ensure all required properties exist
+      if (!parsedData || typeof parsedData !== 'object') {
+        console.log('⚠️ Arena data is not an object, recreating');
+        return createDefaultArenaData();
+      }
+      
+      // Ensure all required properties exist
+      const validData = {
+        players: parsedData.players || {},
+        battles: parsedData.battles || [],
+        onlinePlayers: parsedData.onlinePlayers || []
+      };
+      
+      // If the structure was invalid, save the corrected version
+      if (!parsedData.players || !parsedData.battles || !parsedData.onlinePlayers) {
+        console.log('🔧 Fixed arena data structure');
+        await fs.writeFile(ARENA_FILE, JSON.stringify(validData, null, 2));
+      }
+      
+      return validData;
+    } catch (parseError) {
+      console.error('❌ JSON parse error:', parseError.message);
+      console.log('🔧 Creating backup of corrupted file and recreating');
+      
+      // Create backup of corrupted file
+      const corruptedBackup = ARENA_FILE + '.corrupted.' + Date.now();
+      try {
+        await fs.writeFile(corruptedBackup, data);
+        console.log(`💾 Saved corrupted file as: ${corruptedBackup}`);
+      } catch (backupError) {
+        console.error('Failed to create corrupted backup:', backupError);
+      }
+      
+      return createDefaultArenaData();
+    }
+    
   } catch (error) {
-    console.error('Error reading arena data:', error);
-    return { players: {}, battles: [], onlinePlayers: [] };
+    if (error.code === 'ENOENT') {
+      console.log('📁 Arena file does not exist, creating new one');
+      return createDefaultArenaData();
+    }
+    console.error('❌ Error reading arena file:', error.message);
+    return createDefaultArenaData();
   }
+}
+
+function createDefaultArenaData() {
+  return {
+    players: {},
+    battles: [],
+    onlinePlayers: []
+  };
 }
 
 async function saveArenaData(arenaData) {
   try {
-    await fs.writeFile(ARENA_FILE, JSON.stringify(arenaData, null, 2));
+    // Validate data before saving
+    if (!arenaData || typeof arenaData !== 'object') {
+      throw new Error('Invalid arena data: not an object');
+    }
+    
+    // Ensure required properties exist and are the correct type
+    const validData = {
+      players: arenaData.players && typeof arenaData.players === 'object' ? arenaData.players : {},
+      battles: Array.isArray(arenaData.battles) ? arenaData.battles : [],
+      onlinePlayers: Array.isArray(arenaData.onlinePlayers) ? arenaData.onlinePlayers : []
+    };
+    
+    // Create backup ONLY if arena file already exists and has content
+    let shouldCreateBackup = false;
+    try {
+      const existingData = await fs.readFile(ARENA_FILE, 'utf8');
+      if (existingData && existingData.trim().length > 0) {
+        shouldCreateBackup = true;
+      }
+    } catch (error) {
+      // File doesn't exist, no need for backup
+      shouldCreateBackup = false;
+    }
+    
+    if (shouldCreateBackup) {
+      try {
+        const backupFile = ARENA_FILE + '.backup';
+        const currentData = await fs.readFile(ARENA_FILE, 'utf8');
+        await fs.writeFile(backupFile, currentData);
+      } catch (backupError) {
+        console.log('⚠️ Could not create backup (file may not exist yet)');
+      }
+    }
+    
+    // Save with pretty formatting to avoid corruption
+    const jsonString = JSON.stringify(validData, null, 2);
+    await fs.writeFile(ARENA_FILE, jsonString);
+    
+    console.log('✅ Arena data saved successfully');
+    console.log(`📊 Players: ${Object.keys(validData.players).length}, Battles: ${validData.battles.length}, Online: ${validData.onlinePlayers.length}`);
+    
   } catch (error) {
-    console.error('Error saving arena data:', error);
+    console.error('❌ Error saving arena data:', error);
+    
+    // Try to restore from backup ONLY if backup exists and has valid content
+    try {
+      const backupFile = ARENA_FILE + '.backup';
+      const backupData = await fs.readFile(backupFile, 'utf8');
+      
+      if (backupData && backupData.trim().length > 0) {
+        // Validate backup before restoring
+        const parsedBackup = JSON.parse(backupData);
+        if (parsedBackup && typeof parsedBackup === 'object') {
+          await fs.writeFile(ARENA_FILE, backupData);
+          console.log('🔄 Restored arena data from backup');
+          return; // Exit successfully
+        }
+      }
+    } catch (restoreError) {
+      console.log('⚠️ Could not restore from backup or backup is invalid');
+    }
+    
+    // If restore failed or no valid backup, create fresh file but preserve any valid existing data
+    console.log('🔧 Creating fresh arena file');
+    try {
+      const existingData = await fs.readFile(ARENA_FILE, 'utf8');
+      const parsed = JSON.parse(existingData);
+      
+      if (parsed && parsed.players && Object.keys(parsed.players).length > 0) {
+        console.log('💾 Preserving existing player data');
+        const preservedData = {
+          players: parsed.players || {},
+          battles: parsed.battles || [],
+          onlinePlayers: []
+        };
+        await fs.writeFile(ARENA_FILE, JSON.stringify(preservedData, null, 2));
+      } else {
+        throw new Error('No valid existing data to preserve');
+      }
+    } catch (preserveError) {
+      console.log('🆕 Creating completely fresh arena file');
+      const defaultData = createDefaultArenaData();
+      await fs.writeFile(ARENA_FILE, JSON.stringify(defaultData, null, 2));
+    }
+    
     throw error;
   }
 }
 
 async function updatePlayerStats(playerId, result) {
-  const arenaData = await getArenaData();
-  
-  if (!arenaData.players[playerId]) {
-    arenaData.players[playerId] = {
-      wins: 0,
-      losses: 0,
-      draws: 0
-    };
+  try {
+    console.log(`📊 Updating stats for player ${playerId}: ${result}`);
+    
+    const arenaData = await getArenaData();
+    
+    // Initialize player stats if they don't exist
+    if (!arenaData.players[playerId]) {
+      arenaData.players[playerId] = {
+        wins: 0,
+        losses: 0,
+        draws: 0
+      };
+      console.log(`🆕 Initialized new player stats for ${playerId}`);
+    }
+    
+    // Store old stats for comparison
+    const oldStats = { ...arenaData.players[playerId] };
+    
+    // Update stats based on result
+    switch(result) {
+      case 'win':
+        arenaData.players[playerId].wins++;
+        break;
+      case 'loss':
+        arenaData.players[playerId].losses++;
+        break;
+      case 'draw':
+        arenaData.players[playerId].draws++;
+        break;
+      default:
+        throw new Error(`Invalid result: ${result}`);
+    }
+    
+    const newStats = arenaData.players[playerId];
+    console.log(`📊 Stats updated for ${playerId}:`);
+    console.log(`   Before: ${oldStats.wins}W-${oldStats.losses}L-${oldStats.draws}D`);
+    console.log(`   After:  ${newStats.wins}W-${newStats.losses}L-${newStats.draws}D`);
+    
+    await saveArenaData(arenaData);
+    console.log(`✅ Stats saved successfully for player ${playerId}`);
+    
+  } catch (error) {
+    console.error(`❌ Error updating player stats for ${playerId}:`, error);
+    throw error;
   }
-  
-  switch(result) {
-    case 'win':
-      arenaData.players[playerId].wins++;
-      break;
-    case 'loss':
-      arenaData.players[playerId].losses++;
-      break;
-    case 'draw':
-      arenaData.players[playerId].draws++;
-      break;
-  }
-  
-  await saveArenaData(arenaData);
 }
 
+// Enhanced addOnlinePlayer function
 async function addOnlinePlayer(user) {
-  const arenaData = await getArenaData();
-  const playerStats = arenaData.players[user.id] || { wins: 0, losses: 0, draws: 0 };
-  
-  const onlinePlayer = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    lastSeen: new Date().toISOString(),
-    wins: playerStats.wins,
-    losses: playerStats.losses,
-    draws: playerStats.draws
-  };
-  
-  // Remove if already exists and add fresh entry
-  arenaData.onlinePlayers = arenaData.onlinePlayers.filter(p => p.id !== user.id);
-  arenaData.onlinePlayers.push(onlinePlayer);
-  
-  await saveArenaData(arenaData);
+  try {
+    const arenaData = await getArenaData();
+    
+    // Ensure player stats exist
+    if (!arenaData.players[user.id]) {
+      arenaData.players[user.id] = {
+        wins: 0,
+        losses: 0,
+        draws: 0
+      };
+      console.log(`🆕 Created initial stats for new player: ${user.name}`);
+      await saveArenaData(arenaData);
+    }
+    
+    const playerStats = arenaData.players[user.id];
+    
+    const onlinePlayer = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      lastSeen: new Date().toISOString(),
+      wins: playerStats.wins,
+      losses: playerStats.losses,
+      draws: playerStats.draws
+    };
+    
+    // Remove if already exists and add fresh entry
+    arenaData.onlinePlayers = arenaData.onlinePlayers.filter(p => p.id !== user.id);
+    arenaData.onlinePlayers.push(onlinePlayer);
+    
+    await saveArenaData(arenaData);
+    console.log(`👥 Added online player: ${user.name} (${playerStats.wins}W-${playerStats.losses}L-${playerStats.draws}D)`);
+    
+  } catch (error) {
+    console.error('❌ Error adding online player:', error);
+    // Don't throw error - this shouldn't break the request
+  }
 }
+
 
 async function removeOnlinePlayer(userId) {
   const arenaData = await getArenaData();
@@ -173,15 +360,294 @@ async function removeOnlinePlayer(userId) {
 }
 
 async function cleanupOfflinePlayers() {
-  const arenaData = await getArenaData();
-  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-  
-  arenaData.onlinePlayers = arenaData.onlinePlayers.filter(player => {
-    return new Date(player.lastSeen) > fiveMinutesAgo;
-  });
-  
-  await saveArenaData(arenaData);
+  try {
+    const arenaData = await getArenaData();
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    
+    const beforeCount = arenaData.onlinePlayers.length;
+    const removedPlayers = [];
+    
+    arenaData.onlinePlayers = arenaData.onlinePlayers.filter(player => {
+      const isOnline = new Date(player.lastSeen) > fiveMinutesAgo;
+      if (!isOnline) {
+        removedPlayers.push(player.name);
+      }
+      return isOnline;
+    });
+    
+    const afterCount = arenaData.onlinePlayers.length;
+    
+    if (beforeCount !== afterCount) {
+      console.log(`🧹 Cleanup: Removed ${removedPlayers.length} offline players: ${removedPlayers.join(', ')}`);
+      console.log(`📊 Online players: ${beforeCount} → ${afterCount}`);
+      await saveArenaData(arenaData);
+    }
+  } catch (error) {
+    console.error('❌ Error during cleanup:', error);
+  }
 }
+
+// Update the addOnlinePlayer function to be more robust
+async function addOnlinePlayer(user) {
+  try {
+    const arenaData = await getArenaData();
+    const playerStats = arenaData.players[user.id] || { wins: 0, losses: 0, draws: 0 };
+    
+    const onlinePlayer = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      lastSeen: new Date().toISOString(),
+      wins: playerStats.wins,
+      losses: playerStats.losses,
+      draws: playerStats.draws
+    };
+    
+    // Remove if already exists and add fresh entry
+    arenaData.onlinePlayers = arenaData.onlinePlayers.filter(p => p.id !== user.id);
+    arenaData.onlinePlayers.push(onlinePlayer);
+    
+    await saveArenaData(arenaData);
+  } catch (error) {
+    console.error('❌ Error adding online player:', error);
+    // Don't throw error - this shouldn't break the request
+  }
+}
+
+// Update the middleware to be more forgiving
+app.use((req, res, next) => {
+  if (req.session.user) {
+    // Don't await this - let it run in background
+    addOnlinePlayer(req.session.user).catch(error => {
+      console.error('Background online player update failed:', error);
+    });
+  }
+  next();
+});
+
+// Make logout more robust - only remove from online list, don't log errors as "Unknown"
+app.post('/logout', async (req, res) => {
+  const userId = req.session.user ? req.session.user.id : null;
+  const email = req.session.user ? req.session.user.email : null;
+  
+  if (userId) {
+    try {
+      await removeOnlinePlayer(userId);
+      console.log('User logged out:', email);
+    } catch (error) {
+      console.error('Error removing online player during logout:', error);
+    }
+  } else {
+    console.log('Logout request without valid session (probably a page refresh)');
+  }
+  
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).json({ error: 'Could not log out' });
+    }
+    res.json({ message: 'Logged out successfully', redirect: '/' });
+  });
+});
+
+// Enhanced function to synchronize arena stats with individual battle histories
+async function synchronizeArenaStats() {
+  try {
+    console.log('🔄 Synchronizing arena stats with battle histories...');
+    
+    const users = await getUsers();
+    const arenaData = await getArenaData();
+    
+    // Reset all player stats
+    const newPlayerStats = {};
+    
+    // Initialize all users with zero stats
+    users.forEach(user => {
+      newPlayerStats[user.id] = {
+        wins: 0,
+        losses: 0,
+        draws: 0
+      };
+    });
+    
+    // Count battles from individual player files
+    for (const user of users) {
+      try {
+        const battleHistory = await getPlayerBattleHistory(user.email);
+        
+        battleHistory.forEach(battle => {
+          // Only count player vs player battles (not bot battles)
+          if (battle.battleType === 'vs-player' && battle.player2Id !== 'bot') {
+            const userWon = (battle.player1Id === user.id && battle.result === 'player1_wins') ||
+                           (battle.player2Id === user.id && battle.result === 'player2_wins');
+            
+            const userLost = (battle.player1Id === user.id && battle.result === 'player2_wins') ||
+                            (battle.player2Id === user.id && battle.result === 'player1_wins');
+            
+            if (userWon) {
+              newPlayerStats[user.id].wins++;
+            } else if (userLost) {
+              newPlayerStats[user.id].losses++;
+            } else if (battle.result === 'draw') {
+              newPlayerStats[user.id].draws++;
+            }
+          }
+        });
+        
+        const stats = newPlayerStats[user.id];
+        console.log(`📊 ${user.name}: ${stats.wins}W-${stats.losses}L-${stats.draws}D`);
+        
+      } catch (error) {
+        console.error(`❌ Error processing battles for ${user.name}:`, error);
+      }
+    }
+    
+    // Update arena data with synchronized stats
+    arenaData.players = newPlayerStats;
+    
+    // Update online players with new stats
+    arenaData.onlinePlayers.forEach(onlinePlayer => {
+      const playerStats = newPlayerStats[onlinePlayer.id] || { wins: 0, losses: 0, draws: 0 };
+      onlinePlayer.wins = playerStats.wins;
+      onlinePlayer.losses = playerStats.losses;
+      onlinePlayer.draws = playerStats.draws;
+    });
+    
+    await saveArenaData(arenaData);
+    
+    console.log('✅ Arena stats synchronized successfully');
+    return newPlayerStats;
+    
+  } catch (error) {
+    console.error('❌ Error synchronizing arena stats:', error);
+    throw error;
+  }
+}
+
+async function saveBattleResult(battleData) {
+  try {
+    const {
+      player1Id,
+      player2Id,
+      player1Pokemon,
+      player2Pokemon,
+      player1Score,
+      player2Score,
+      result,
+      battleType = 'vs-player'
+    } = battleData;
+    
+    console.log(`💾 Saving battle result: ${result} between ${player1Id} and ${player2Id}`);
+    
+    // Only save battle history and stats for player vs player battles
+    if (battleType === 'vs-player' && player2Id !== 'bot') {
+      const battleRecord = {
+        id: Date.now().toString(),
+        player1Id,
+        player2Id,
+        player1Pokemon,
+        player2Pokemon,
+        player1Score,
+        player2Score,
+        result,
+        battleType,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Save to individual player files first
+      await saveBattleToPlayerFiles(battleRecord);
+      
+      // Then update arena data
+      const arenaData = await getArenaData();
+      arenaData.battles.push(battleRecord);
+      
+      // Update player stats in arena data
+      if (result === 'player1_wins') {
+        await updatePlayerStats(player1Id, 'win');
+        await updatePlayerStats(player2Id, 'loss');
+      } else if (result === 'player2_wins') {
+        await updatePlayerStats(player1Id, 'loss');
+        await updatePlayerStats(player2Id, 'win');
+      } else if (result === 'draw') {
+        await updatePlayerStats(player1Id, 'draw');
+        await updatePlayerStats(player2Id, 'draw');
+      }
+      
+      // Refresh online players stats
+      await refreshOnlinePlayersStats();
+      
+      console.log(`✅ Battle saved and stats updated`);
+    }
+    
+  } catch (error) {
+    console.error('❌ Error saving battle result:', error);
+    throw error;
+  }
+}
+
+// Helper function to save battle to individual player files
+async function saveBattleToPlayerFiles(battleRecord) {
+  try {
+    const users = await getUsers();
+    const player1 = users.find(u => u.id === battleRecord.player1Id);
+    const player2 = users.find(u => u.id === battleRecord.player2Id);
+    
+    if (player1) {
+      await saveBattleToPlayerFile(player1.email, battleRecord);
+    }
+    
+    if (player2) {
+      await saveBattleToPlayerFile(player2.email, battleRecord);
+    }
+  } catch (error) {
+    console.error('Error saving battle to player files:', error);
+  }
+}
+
+// Helper function to save battle to individual player's history file
+async function saveBattleToPlayerFile(email, battleRecord) {
+  try {
+    const safeFolderName = email.replace(/[@.]/g, '_');
+    const userFolder = path.join(DATA_FOLDER, safeFolderName);
+    const battleHistoryFile = path.join(userFolder, 'battle-history.json');
+    
+    // Ensure user folder exists
+    await fs.mkdir(userFolder, { recursive: true });
+    
+    // Read existing battle history
+    let battleHistory = [];
+    try {
+      const data = await fs.readFile(battleHistoryFile, 'utf8');
+      battleHistory = JSON.parse(data);
+    } catch {
+      // File doesn't exist, start with empty array
+    }
+    
+    // Add new battle
+    battleHistory.push(battleRecord);
+    
+    // Save updated battle history
+    await fs.writeFile(battleHistoryFile, JSON.stringify(battleHistory, null, 2));
+    
+    console.log(`📝 Saved battle to ${email}'s history`);
+  } catch (error) {
+    console.error(`Error saving battle to ${email}'s history:`, error);
+  }
+}
+
+// Helper function to get player's battle history
+async function getPlayerBattleHistory(email) {
+  try {
+    const safeFolderName = email.replace(/[@.]/g, '_');
+    const battleHistoryFile = path.join(DATA_FOLDER, safeFolderName, 'battle-history.json');
+    
+    const data = await fs.readFile(battleHistoryFile, 'utf8');
+    return JSON.parse(data);
+  } catch {
+    return []; // Return empty array if file doesn't exist
+  }
+}
+
 
 // Helper function to validate name (max 50 chars, letters only)
 function validateName(name) {
@@ -773,8 +1239,32 @@ app.get('/api/arena/online-players', async (req, res) => {
     await cleanupOfflinePlayers();
     const arenaData = await getArenaData();
     
-    // Don't include current user in the list
-    const otherPlayers = arenaData.onlinePlayers.filter(p => p.id !== req.session.user.id);
+    console.log('\n🔍 DEBUG: Online Players API called');
+    console.log('Current user:', req.session.user);
+    console.log('Current user ID:', req.session.user.id, typeof req.session.user.id);
+    console.log('All online players in database:');
+    
+    arenaData.onlinePlayers.forEach((player, index) => {
+      console.log(`  ${index + 1}. ${player.name} (ID: ${player.id}, Type: ${typeof player.id})`);
+    });
+    
+    // Debug the filtering process
+    const otherPlayers = arenaData.onlinePlayers.filter(p => {
+      const isCurrentUser = p.id === req.session.user.id;
+      const isCurrentUserStrict = String(p.id) === String(req.session.user.id);
+      
+      console.log(`Checking player ${p.name}:`);
+      console.log(`  Player ID: ${p.id} (${typeof p.id})`);
+      console.log(`  Current ID: ${req.session.user.id} (${typeof req.session.user.id})`);
+      console.log(`  Equal (===): ${isCurrentUser}`);
+      console.log(`  Equal (string): ${isCurrentUserStrict}`);
+      console.log(`  Include in result: ${!isCurrentUserStrict}`);
+      
+      return !isCurrentUserStrict; // Use string comparison to be safe
+    });
+    
+    console.log(`\n📤 Returning ${otherPlayers.length} other players:`, otherPlayers.map(p => p.name));
+    console.log('---\n');
     
     res.json(otherPlayers);
   } catch (error) {
@@ -824,63 +1314,51 @@ app.post('/api/arena/save-battle-result', async (req, res) => {
   }
   
   try {
-    const {
-      player1Id,
-      player2Id,
-      player1Pokemon,
-      player2Pokemon,
-      player1Score,
-      player2Score,
-      result,
-      battleType = 'vs-player'
-    } = req.body;
-    
-    // Only save battle history and stats for player vs player battles
-    if (battleType === 'vs-player' && player2Id !== 'bot') {
-      // Save battle record
-      const arenaData = await getArenaData();
-      
-      const battleRecord = {
-        id: Date.now().toString(),
-        player1Id,
-        player2Id,
-        player1Pokemon,
-        player2Pokemon,
-        player1Score,
-        player2Score,
-        result,
-        battleType,
-        timestamp: new Date().toISOString()
-      };
-      
-      arenaData.battles.push(battleRecord);
-      
-      // Update player stats for both players
-      if (result === 'player1_wins') {
-        await updatePlayerStats(player1Id, 'win');
-        await updatePlayerStats(player2Id, 'loss');
-      } else if (result === 'player2_wins') {
-        await updatePlayerStats(player1Id, 'loss');
-        await updatePlayerStats(player2Id, 'win');
-      } else if (result === 'draw') {
-        await updatePlayerStats(player1Id, 'draw');
-        await updatePlayerStats(player2Id, 'draw');
-      }
-      
-      await saveArenaData(arenaData);
-      
-      res.json({ message: 'Battle result saved successfully' });
-    } else {
-      // For vs-bot battles, just acknowledge but don't save
-      res.json({ message: 'Bot battle completed (not saved to history)' });
-    }
-    
+    await saveBattleResult(req.body);
+    res.json({ message: 'Battle result saved successfully' });
   } catch (error) {
-    console.error('Error saving battle result:', error);
+    console.error('❌ Error saving battle result:', error);
     res.status(500).json({ error: 'Failed to save battle result' });
   }
 });
 
+// API route to synchronize arena stats (for admin/debugging)
+app.post('/api/arena/sync-stats', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  
+  try {
+    const syncedStats = await synchronizeArenaStats();
+    res.json({ 
+      message: 'Arena stats synchronized successfully',
+      playerCount: Object.keys(syncedStats).length 
+    });
+  } catch (error) {
+    console.error('❌ Error synchronizing arena stats:', error);
+    res.status(500).json({ error: 'Failed to synchronize arena stats' });
+  }
+});
+
+
+async function refreshOnlinePlayersStats() {
+  try {
+    const arenaData = await getArenaData();
+    
+    // Update each online player's stats
+    arenaData.onlinePlayers.forEach(player => {
+      const playerStats = arenaData.players[player.id] || { wins: 0, losses: 0, draws: 0 };
+      player.wins = playerStats.wins;
+      player.losses = playerStats.losses;
+      player.draws = playerStats.draws;
+    });
+    
+    await saveArenaData(arenaData);
+    console.log('🔄 Refreshed online players stats');
+  } catch (error) {
+    console.error('❌ Error refreshing online players stats:', error);
+  }
+}
 // API route to get player stats
 app.get('/api/arena/stats', async (req, res) => {
   if (!req.session.user) {
@@ -940,13 +1418,11 @@ app.get('/api/arena/battle-history', async (req, res) => {
   }
   
   try {
-    const arenaData = await getArenaData();
+    const email = req.session.user.email;
     const userId = req.session.user.id;
     
-    // Get battles involving current user
-    const userBattles = arenaData.battles.filter(battle => 
-      battle.player1Id === userId || battle.player2Id === userId
-    );
+    // Get battle history from user's individual file
+    const userBattles = await getPlayerBattleHistory(email);
     
     // Sort by timestamp (most recent first)
     userBattles.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -972,15 +1448,21 @@ app.get('/api/arena/battle-history', async (req, res) => {
   }
 });
 
-// API route to get leaderboard
+// API route to get leaderboard with automatic sync
 app.get('/api/arena/leaderboard', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ error: 'Not authenticated' });
   }
   
   try {
+    // Synchronize stats before generating leaderboard to ensure accuracy
+    await synchronizeArenaStats();
+    
     const arenaData = await getArenaData();
     const users = await getUsers();
+    
+    console.log('🏆 Loading leaderboard...');
+    console.log('📊 Players in arena data:', Object.keys(arenaData.players).length);
     
     // Create user map
     const userMap = {};
@@ -988,22 +1470,32 @@ app.get('/api/arena/leaderboard', async (req, res) => {
       userMap[user.id] = user.name;
     });
     
-    // Calculate leaderboard
-    const leaderboard = Object.entries(arenaData.players).map(([id, stats]) => ({
-      id,
-      name: userMap[id] || 'Unknown',
-      wins: stats.wins,
-      losses: stats.losses,
-      draws: stats.draws,
-      totalBattles: stats.wins + stats.losses + stats.draws,
-      winRate: stats.wins + stats.losses + stats.draws > 0 ? 
-        ((stats.wins / (stats.wins + stats.losses + stats.draws)) * 100).toFixed(1) : 0
-    }));
+    // Calculate leaderboard with enhanced scoring
+    const leaderboard = Object.entries(arenaData.players).map(([id, stats]) => {
+      const totalBattles = stats.wins + stats.losses + stats.draws;
+      const winPercentage = totalBattles > 0 ? 
+        ((stats.wins / totalBattles) * 100) : 0;
+      
+      // Calculate overall score: Win = 3pts, Draw = 1pt, Loss = 0pts
+      const overallScore = (stats.wins * 3) + (stats.draws * 1) + (stats.losses * 0);
+      
+      return {
+        id,
+        name: userMap[id] || 'Unknown Player',
+        wins: stats.wins,
+        losses: stats.losses,
+        draws: stats.draws,
+        totalBattles,
+        winPercentage: parseFloat(winPercentage.toFixed(1)),
+        overallScore
+      };
+    });
     
-    // Sort by wins (descending), then by win rate
+    // Sort by overall score (descending), then by win percentage, then by total wins
     leaderboard.sort((a, b) => {
-      if (b.wins !== a.wins) return b.wins - a.wins;
-      return parseFloat(b.winRate) - parseFloat(a.winRate);
+      if (b.overallScore !== a.overallScore) return b.overallScore - a.overallScore;
+      if (b.winPercentage !== a.winPercentage) return b.winPercentage - a.winPercentage;
+      return b.wins - a.wins;
     });
     
     // Add rank to each player
@@ -1011,15 +1503,28 @@ app.get('/api/arena/leaderboard', async (req, res) => {
       player.rank = index + 1;
     });
     
-    res.json(leaderboard);
+    // Only return players who have at least one battle
+    const activeLeaderboard = leaderboard.filter(player => player.totalBattles > 0);
+    
+    console.log(`✅ Leaderboard loaded: ${activeLeaderboard.length} active players`);
+    
+    res.json(activeLeaderboard);
   } catch (error) {
-    console.error('Error getting leaderboard:', error);
+    console.error('❌ Error getting leaderboard:', error);
     res.status(500).json({ error: 'Failed to get leaderboard' });
   }
 });
 
-// Initialize and start server
-initializeDataFolder().then(() => {
+// Initialize and start server with arena sync
+initializeDataFolder().then(async () => {
+  // Synchronize arena stats on server startup
+  try {
+    await synchronizeArenaStats();
+    console.log('✅ Arena stats synchronized on startup');
+  } catch (error) {
+    console.error('⚠️ Could not synchronize arena stats on startup:', error);
+  }
+  
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log('Data folder initialized');
@@ -1030,11 +1535,10 @@ initializeDataFolder().then(() => {
     console.log('  GET /search - Search page (protected)');
     console.log('  GET /favorites - Favorites page (protected)');
     console.log('  GET /pokemon/:id - Pokemon details page (protected)');
-    console.log('  GET /arena - Arena main page (protected)');
-    console.log('  GET /arena/vs-bot - Arena vs Bot (protected)');
-    console.log('  GET /arena/random-vs-player - Arena vs Player (protected)');
-    console.log('  GET /arena/fight-history - Fight History (protected)');
-    console.log('  GET /arena/leaderboard - Leaderboard (protected)');
-    console.log('Arena system initialized with player tracking');
+    console.log('  GET /arena - Arena page (protected)');
+    console.log('  GET /arena/vs-bot - VS Bot page (protected)');
+    console.log('  GET /arena/random-vs-player - Random VS Player page (protected)');
+    console.log('  GET /arena/fight-history - Fight History page (protected)');
+    console.log('  GET /arena/leaderboard - Leaderboard page (protected)');
   });
 });

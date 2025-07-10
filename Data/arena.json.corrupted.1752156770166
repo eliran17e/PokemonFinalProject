@@ -1,0 +1,85 @@
+{
+  "players": {
+    "1752143149639": {
+      "wins": 1,
+      "losses": 2,
+      "draws": 0
+    },
+    "1752066430592": {
+      "wins": 2,
+      "losses": 1,
+      "draws": 0
+    }
+  },
+  "battles": [
+    {
+      "id": "1752156646806",
+      "player1Id": "1752066430592",
+      "player2Id": "1752143149639",
+      "player1Pokemon": {
+        "id": 6,
+        "name": "charizard",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+      },
+      "player2Pokemon": {
+        "id": 150,
+        "name": "mewtwo",
+        "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+      },
+      "player1Score": 74.04,
+      "player2Score": 106.06,
+      "result": "player2_wins",
+      "battleType": "vs-player",
+      "timestamp": "2025-07-10T14:10:46.806Z"
+    }
+  ],
+  "onlinePlayers": [
+    {
+      "id": "1752143149639",
+      "name": "Eliran",
+      "email": "eliran@gmail.com",
+      "lastSeen": "2025-07-10T14:12:26.760Z",
+      "wins": 1,
+      "losses": 2,
+      "draws": 0
+    },
+    {
+      "id": "1752066430592",
+      "name": "Tomer Harari",
+      "email": "tomer@gmail.com",
+      "lastSeen": "2025-07-10T14:12:50.165Z",
+      "wins": 2,
+      "losses": 1,
+      "draws": 0
+    }
+  ]
+}/sprites/pokemon/33.png"
+      },
+      "player1Score": 41.19,
+      "player2Score": 68.72,
+      "result": "player2_wins",
+      "battleType": "vs-player",
+      "timestamp": "2025-07-10T14:12:50.165Z"
+    }
+  ],
+  "onlinePlayers": [
+    {
+      "id": "1752143149639",
+      "name": "Eliran",
+      "email": "eliran@gmail.com",
+      "lastSeen": "2025-07-10T14:12:26.760Z",
+      "wins": 1,
+      "losses": 2,
+      "draws": 0
+    },
+    {
+      "id": "1752066430592",
+      "name": "Tomer Harari",
+      "email": "tomer@gmail.com",
+      "lastSeen": "2025-07-10T14:12:42.680Z",
+      "wins": 2,
+      "losses": 1,
+      "draws": 0
+    }
+  ]
+}

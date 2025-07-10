@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena - Fight History</title>
+    <link rel="stylesheet" href="/arenaFightHistory.css">
+    <link rel="stylesheet" href="/navbar.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="/search" class="nav-brand">🎯 Pokemon Explorer</a>
+                <a href="/search" class="nav-link">Search</a>
+                <a href="/favorites" class="nav-link">Favorites</a>
+                <a href="/arena" class="nav-link active">⚔️ Arena</a>
+            </div>
+            <div class="nav-user">
+                <span>Welcome, <span class="nav-username" id="navUsername">Loading...</span></span>
+                <button class="nav-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>📊 Fight History</h1>
+            <p>Your Player vs Player battle records</p>
+            <a href="/arena" class="back-link">← Back to Arena</a>
+        </div>
+
+        <div class="stats-summary" id="statsSummary">
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalWins">0</div>
+                    <div class="stat-label">Wins</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💀</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalLosses">0</div>
+                    <div class="stat-label">Losses</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🤝</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalDraws">0</div>
+                    <div class="stat-label">Draws</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚔️</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalBattles">0</div>
+                    <div class="stat-label">Total Battles</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="winPercentage">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-info">
+                    <div class="stat-number" id="overallScore">0</div>
+                    <div class="stat-label">Overall Score</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="resultFilter">Filter by Result:</label>
+                <select id="resultFilter" onchange="filterBattles()">
+                    <option value="all">All Battles</option>
+                    <option value="win">Wins Only</option>
+                    <option value="loss">Losses Only</option>
+                    <option value="draw">Draws Only</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sortBy">Sort by:</label>
+                <select id="sortBy" onchange="sortBattles()">
+                    <option value="recent">Most Recent</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="opponent">Opponent Name</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="battles-container">
+            <div class="battles-list" id="battlesList">
+                <div class="loading-message">Loading battle history...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/navbar.js"></script>
+    <script src="/arenaFightHistory.js"></script>
+</body>
+</html>

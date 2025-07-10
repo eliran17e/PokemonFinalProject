@@ -83,19 +83,8 @@ function displayTeamMembers(members) {
     teamMembers.innerHTML = members.map(member => `
         <div class="team-member">
             <h4>${member.name}</h4>
-            <div class="role">${member.role}</div>
             <div class="email">${member.email}</div>
             ${member.github ? `<div class="github"><a href="${member.github}" target="_blank">GitHub Profile</a></div>` : ''}
-            ${member.contributions && member.contributions.length > 0 ? `
-                <div class="contributions">
-                    <h5>Contributions:</h5>
-                    <div class="contribution-tags">
-                        ${member.contributions.map(contrib => `
-                            <span class="contribution-tag">${contrib}</span>
-                        `).join('')}
-                    </div>
-                </div>
-            ` : ''}
         </div>
     `).join('');
 }
@@ -108,7 +97,6 @@ function displayProjectMeta(info) {
         ${info.institution ? `<p><strong>Institution:</strong> ${info.institution}</p>` : ''}
         ${info.semester ? `<p><strong>Semester:</strong> ${info.semester}</p>` : ''}
         ${info.version ? `<p><strong>Version:</strong> ${info.version}</p>` : ''}
-        ${info.startDate && info.completionDate ? `<p><strong>Duration:</strong> ${formatDate(info.startDate)} - ${formatDate(info.completionDate)}</p>` : ''}
         ${info.apiUsed ? `
             <div class="api-info">
                 <h4>API Used: ${info.apiUsed.name}</h4>
