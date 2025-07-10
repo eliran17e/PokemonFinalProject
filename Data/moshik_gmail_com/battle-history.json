@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1752165806493",
+    "player1Id": "1752165561507",
+    "player2Id": "1752143149639",
+    "player1Pokemon": {
+      "id": 776,
+      "name": "turtonator",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/776.png"
+    },
+    "player2Pokemon": {
+      "id": 55,
+      "name": "golduck",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png"
+    },
+    "player1Score": 74.7,
+    "player2Score": 82.32,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:43:26.493Z"
+  },
+  {
+    "id": "1752165850896",
+    "player1Id": "1752143149639",
+    "player2Id": "1752165561507",
+    "player1Pokemon": {
+      "id": 55,
+      "name": "golduck",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png"
+    },
+    "player2Pokemon": {
+      "id": 776,
+      "name": "turtonator",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/776.png"
+    },
+    "player1Score": 90.69,
+    "player2Score": 87.96,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:44:10.896Z"
+  }
+]

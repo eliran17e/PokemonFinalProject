@@ -1,39 +1,35 @@
 {
   "players": {
     "1752066430592": {
-      "wins": 4,
-      "losses": 11,
+      "wins": 7,
+      "losses": 13,
       "draws": 0
     },
     "1752143149639": {
-      "wins": 9,
+      "wins": 11,
       "losses": 4,
       "draws": 0
     },
     "1752163304407": {
-      "wins": 2,
-      "losses": 0,
+      "wins": 4,
+      "losses": 3,
+      "draws": 0
+    },
+    "1752165561507": {
+      "wins": 0,
+      "losses": 2,
       "draws": 0
     }
   },
   "battles": [],
   "onlinePlayers": [
     {
-      "id": "1752163304407",
-      "name": "moshe",
-      "email": "moshe@gmail.com",
-      "lastSeen": "2025-07-10T16:14:16.619Z",
-      "wins": 2,
-      "losses": 0,
-      "draws": 0
-    },
-    {
       "id": "1752066430592",
       "name": "Tomer Harari",
       "email": "tomer@gmail.com",
-      "lastSeen": "2025-07-10T16:15:03.509Z",
-      "wins": 4,
-      "losses": 11,
+      "lastSeen": "2025-07-10T16:48:20.105Z",
+      "wins": 7,
+      "losses": 13,
       "draws": 0
     }
   ]

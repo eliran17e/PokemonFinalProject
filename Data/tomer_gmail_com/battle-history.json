@@ -298,5 +298,105 @@
     "result": "player1_wins",
     "battleType": "vs-player",
     "timestamp": "2025-07-10T16:07:23.292Z"
+  },
+  {
+    "id": "1752165128082",
+    "player1Id": "1752066430592",
+    "player2Id": "1752163304407",
+    "player1Pokemon": {
+      "id": 146,
+      "name": "moltres",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"
+    },
+    "player2Pokemon": {
+      "id": 157,
+      "name": "typhlosion",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/157.png"
+    },
+    "player1Score": 89.41,
+    "player2Score": 73.1,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:32:08.082Z"
+  },
+  {
+    "id": "1752165140336",
+    "player1Id": "1752066430592",
+    "player2Id": "1752163304407",
+    "player1Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player2Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player1Score": 73.85,
+    "player2Score": 85.13,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:32:20.336Z"
+  },
+  {
+    "id": "1752165151685",
+    "player1Id": "1752163304407",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player2Pokemon": {
+      "id": 151,
+      "name": "mew",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
+    },
+    "player1Score": 72.98,
+    "player2Score": 101.8,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:32:31.685Z"
+  },
+  {
+    "id": "1752165160373",
+    "player1Id": "1752066430592",
+    "player2Id": "1752163304407",
+    "player1Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player2Pokemon": {
+      "id": 157,
+      "name": "typhlosion",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/157.png"
+    },
+    "player1Score": 76.5,
+    "player2Score": 84.87,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:32:40.373Z"
+  },
+  {
+    "id": "1752165164268",
+    "player1Id": "1752163304407",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 157,
+      "name": "typhlosion",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/157.png"
+    },
+    "player2Pokemon": {
+      "id": 10210,
+      "name": "cinderace-gmax",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10210.png"
+    },
+    "player1Score": 86.57,
+    "player2Score": 100.01,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:32:44.268Z"
   }
 ]
