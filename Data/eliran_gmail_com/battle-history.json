@@ -198,5 +198,65 @@
     "result": "player1_wins",
     "battleType": "vs-player",
     "timestamp": "2025-07-10T14:59:36.266Z"
+  },
+  {
+    "id": "1752162048072",
+    "player1Id": "1752143149639",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 55,
+      "name": "golduck",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/55.png"
+    },
+    "player2Pokemon": {
+      "id": 151,
+      "name": "mew",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png"
+    },
+    "player1Score": 72.94,
+    "player2Score": 93.6,
+    "result": "player2_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T15:40:48.072Z"
+  },
+  {
+    "id": "1752162580294",
+    "player1Id": "1752143149639",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player2Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player1Score": 108.37,
+    "player2Score": 80.52,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T15:49:40.294Z"
+  },
+  {
+    "id": "1752162694884",
+    "player1Id": "1752143149639",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 150,
+      "name": "mewtwo",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+    },
+    "player2Pokemon": {
+      "id": 6,
+      "name": "charizard",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    },
+    "player1Score": 114.45,
+    "player2Score": 87.12,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T15:51:34.884Z"
   }
 ]

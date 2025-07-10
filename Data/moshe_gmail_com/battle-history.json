@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1752163634368",
+    "player1Id": "1752163304407",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 146,
+      "name": "moltres",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"
+    },
+    "player2Pokemon": {
+      "id": 2,
+      "name": "ivysaur",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+    },
+    "player1Score": 102.53,
+    "player2Score": 65.44,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:07:14.368Z"
+  },
+  {
+    "id": "1752163643292",
+    "player1Id": "1752163304407",
+    "player2Id": "1752066430592",
+    "player1Pokemon": {
+      "id": 146,
+      "name": "moltres",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"
+    },
+    "player2Pokemon": {
+      "id": 10210,
+      "name": "cinderace-gmax",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10210.png"
+    },
+    "player1Score": 102.87,
+    "player2Score": 93.72,
+    "result": "player1_wins",
+    "battleType": "vs-player",
+    "timestamp": "2025-07-10T16:07:23.292Z"
+  }
+]

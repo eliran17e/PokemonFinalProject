@@ -212,9 +212,6 @@ async function saveArenaData(arenaData) {
     const jsonString = JSON.stringify(validData, null, 2);
     await fs.writeFile(ARENA_FILE, jsonString);
     
-    console.log('✅ Arena data saved successfully');
-    console.log(`📊 Players: ${Object.keys(validData.players).length}, Battles: ${validData.battles.length}, Online: ${validData.onlinePlayers.length}`);
-    
   } catch (error) {
     console.error('❌ Error saving arena data:', error);
     
@@ -265,7 +262,6 @@ async function saveArenaData(arenaData) {
 
 async function updatePlayerStats(playerId, result) {
   try {
-    console.log(`📊 Updating stats for player ${playerId}: ${result}`);
     
     const arenaData = await getArenaData();
     
@@ -276,7 +272,6 @@ async function updatePlayerStats(playerId, result) {
         losses: 0,
         draws: 0
       };
-      console.log(`🆕 Initialized new player stats for ${playerId}`);
     }
     
     // Store old stats for comparison
@@ -298,12 +293,8 @@ async function updatePlayerStats(playerId, result) {
     }
     
     const newStats = arenaData.players[playerId];
-    console.log(`📊 Stats updated for ${playerId}:`);
-    console.log(`   Before: ${oldStats.wins}W-${oldStats.losses}L-${oldStats.draws}D`);
-    console.log(`   After:  ${newStats.wins}W-${newStats.losses}L-${newStats.draws}D`);
     
     await saveArenaData(arenaData);
-    console.log(`✅ Stats saved successfully for player ${playerId}`);
     
   } catch (error) {
     console.error(`❌ Error updating player stats for ${playerId}:`, error);
@@ -323,7 +314,7 @@ async function addOnlinePlayer(user) {
         losses: 0,
         draws: 0
       };
-      console.log(`🆕 Created initial stats for new player: ${user.name}`);
+      console.log(`🆕 New player registered in arena: ${user.name}`);
       await saveArenaData(arenaData);
     }
     
@@ -339,19 +330,19 @@ async function addOnlinePlayer(user) {
       draws: playerStats.draws
     };
     
+    // Check if player is already online to avoid spam
+    const wasAlreadyOnline = arenaData.onlinePlayers.some(p => p.id === user.id);
+    
     // Remove if already exists and add fresh entry
     arenaData.onlinePlayers = arenaData.onlinePlayers.filter(p => p.id !== user.id);
     arenaData.onlinePlayers.push(onlinePlayer);
     
     await saveArenaData(arenaData);
-    console.log(`👥 Added online player: ${user.name} (${playerStats.wins}W-${playerStats.losses}L-${playerStats.draws}D)`);
     
   } catch (error) {
-    console.error('❌ Error adding online player:', error);
-    // Don't throw error - this shouldn't break the request
+    // Silently fail
   }
 }
-
 
 async function removeOnlinePlayer(userId) {
   const arenaData = await getArenaData();
@@ -378,8 +369,6 @@ async function cleanupOfflinePlayers() {
     const afterCount = arenaData.onlinePlayers.length;
     
     if (beforeCount !== afterCount) {
-      console.log(`🧹 Cleanup: Removed ${removedPlayers.length} offline players: ${removedPlayers.join(', ')}`);
-      console.log(`📊 Online players: ${beforeCount} → ${afterCount}`);
       await saveArenaData(arenaData);
     }
   } catch (error) {
@@ -387,45 +376,6 @@ async function cleanupOfflinePlayers() {
   }
 }
 
-// Update the addOnlinePlayer function to be more robust
-async function addOnlinePlayer(user) {
-  try {
-    const arenaData = await getArenaData();
-    const playerStats = arenaData.players[user.id] || { wins: 0, losses: 0, draws: 0 };
-    
-    const onlinePlayer = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      lastSeen: new Date().toISOString(),
-      wins: playerStats.wins,
-      losses: playerStats.losses,
-      draws: playerStats.draws
-    };
-    
-    // Remove if already exists and add fresh entry
-    arenaData.onlinePlayers = arenaData.onlinePlayers.filter(p => p.id !== user.id);
-    arenaData.onlinePlayers.push(onlinePlayer);
-    
-    await saveArenaData(arenaData);
-  } catch (error) {
-    console.error('❌ Error adding online player:', error);
-    // Don't throw error - this shouldn't break the request
-  }
-}
-
-// Update the middleware to be more forgiving
-app.use((req, res, next) => {
-  if (req.session.user) {
-    // Don't await this - let it run in background
-    addOnlinePlayer(req.session.user).catch(error => {
-      console.error('Background online player update failed:', error);
-    });
-  }
-  next();
-});
-
-// Make logout more robust - only remove from online list, don't log errors as "Unknown"
 app.post('/logout', async (req, res) => {
   const userId = req.session.user ? req.session.user.id : null;
   const email = req.session.user ? req.session.user.email : null;
@@ -433,17 +383,14 @@ app.post('/logout', async (req, res) => {
   if (userId) {
     try {
       await removeOnlinePlayer(userId);
-      console.log('User logged out:', email);
     } catch (error) {
-      console.error('Error removing online player during logout:', error);
+      // Silently handle errors
     }
-  } else {
-    console.log('Logout request without valid session (probably a page refresh)');
   }
   
   req.session.destroy((err) => {
     if (err) {
-      console.error('Logout error:', err);
+      console.error('❌ Logout error:', err);
       return res.status(500).json({ error: 'Could not log out' });
     }
     res.json({ message: 'Logged out successfully', redirect: '/' });
@@ -453,7 +400,6 @@ app.post('/logout', async (req, res) => {
 // Enhanced function to synchronize arena stats with individual battle histories
 async function synchronizeArenaStats() {
   try {
-    console.log('🔄 Synchronizing arena stats with battle histories...');
     
     const users = await getUsers();
     const arenaData = await getArenaData();
@@ -495,7 +441,6 @@ async function synchronizeArenaStats() {
         });
         
         const stats = newPlayerStats[user.id];
-        console.log(`📊 ${user.name}: ${stats.wins}W-${stats.losses}L-${stats.draws}D`);
         
       } catch (error) {
         console.error(`❌ Error processing battles for ${user.name}:`, error);
@@ -515,7 +460,6 @@ async function synchronizeArenaStats() {
     
     await saveArenaData(arenaData);
     
-    console.log('✅ Arena stats synchronized successfully');
     return newPlayerStats;
     
   } catch (error) {
@@ -536,8 +480,6 @@ async function saveBattleResult(battleData) {
       result,
       battleType = 'vs-player'
     } = battleData;
-    
-    console.log(`💾 Saving battle result: ${result} between ${player1Id} and ${player2Id}`);
     
     // Only save battle history and stats for player vs player battles
     if (battleType === 'vs-player' && player2Id !== 'bot') {
@@ -575,8 +517,6 @@ async function saveBattleResult(battleData) {
       
       // Refresh online players stats
       await refreshOnlinePlayersStats();
-      
-      console.log(`✅ Battle saved and stats updated`);
     }
     
   } catch (error) {
@@ -629,7 +569,6 @@ async function saveBattleToPlayerFile(email, battleRecord) {
     // Save updated battle history
     await fs.writeFile(battleHistoryFile, JSON.stringify(battleHistory, null, 2));
     
-    console.log(`📝 Saved battle to ${email}'s history`);
   } catch (error) {
     console.error(`Error saving battle to ${email}'s history:`, error);
   }
@@ -881,8 +820,6 @@ app.get('/api/pokemon/:id', async (req, res) => {
 
   try {
     const pokemonId = req.params.id;
-    console.log('Fetching Pokemon ID:', pokemonId); // Debug log
-    
     // Validate Pokemon ID
     if (!pokemonId || pokemonId.trim() === '') {
       return res.status(400).json({ error: 'Invalid Pokemon ID' });
@@ -899,7 +836,6 @@ app.get('/api/pokemon/:id', async (req, res) => {
       const favoritePokemon = favorites.find(p => p.id.toString() === pokemonId);
       
       if (favoritePokemon) {
-        console.log('Found Pokemon in favorites:', favoritePokemon.name);
         return res.json(favoritePokemon);
       }
     } catch (error) {
@@ -907,19 +843,15 @@ app.get('/api/pokemon/:id', async (req, res) => {
     }
     
     // If not found in favorites, fetch from PokeAPI
-    console.log('Fetching from PokeAPI for ID:', pokemonId);
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
     
     if (!response.ok) {
-      console.log('PokeAPI response not ok:', response.status);
       return res.status(response.status).json({ error: 'Pokemon not found' });
     }
     
     const pokemonData = await response.json();
-    console.log('Received Pokemon data from API:', pokemonData.name);
     
     const optimizedData = optimizePokemonData(pokemonData);
-    console.log('Sending optimized data');
     
     res.json(optimizedData);
     
@@ -1177,14 +1109,11 @@ app.get('/api/youtube/:pokemonName', async (req, res) => {
 
   try {
     const pokemonName = req.params.pokemonName;
-    console.log('Fetching YouTube videos for:', pokemonName);
-    console.log('Using API key:', YOUTUBE_API_KEY ? 'Key present' : 'No key');
     
     // Search for Pokemon-related videos
     const searchQuery = `${pokemonName} pokemon`;
     const searchUrl = `${YOUTUBE_API_BASE_URL}/search?part=snippet&q=${encodeURIComponent(searchQuery)}&type=video&maxResults=6&order=relevance&key=${YOUTUBE_API_KEY}`;
     
-    console.log('Making request to YouTube API...');
     const response = await fetch(searchUrl);
     
     if (!response.ok) {
@@ -1202,7 +1131,6 @@ app.get('/api/youtube/:pokemonName', async (req, res) => {
     }
     
     const data = await response.json();
-    console.log('YouTube API response received');
     
     // Check if we got valid data
     if (!data.items || data.items.length === 0) {
@@ -1220,7 +1148,6 @@ app.get('/api/youtube/:pokemonName', async (req, res) => {
       url: `https://www.youtube.com/watch?v=${item.id.videoId}`
     }));
     
-    console.log(`Found ${videos.length} videos for ${pokemonName}`);
     res.json({ videos });
     
   } catch (error) {
@@ -1239,32 +1166,10 @@ app.get('/api/arena/online-players', async (req, res) => {
     await cleanupOfflinePlayers();
     const arenaData = await getArenaData();
     
-    console.log('\n🔍 DEBUG: Online Players API called');
-    console.log('Current user:', req.session.user);
-    console.log('Current user ID:', req.session.user.id, typeof req.session.user.id);
-    console.log('All online players in database:');
-    
-    arenaData.onlinePlayers.forEach((player, index) => {
-      console.log(`  ${index + 1}. ${player.name} (ID: ${player.id}, Type: ${typeof player.id})`);
-    });
-    
-    // Debug the filtering process
-    const otherPlayers = arenaData.onlinePlayers.filter(p => {
-      const isCurrentUser = p.id === req.session.user.id;
-      const isCurrentUserStrict = String(p.id) === String(req.session.user.id);
-      
-      console.log(`Checking player ${p.name}:`);
-      console.log(`  Player ID: ${p.id} (${typeof p.id})`);
-      console.log(`  Current ID: ${req.session.user.id} (${typeof req.session.user.id})`);
-      console.log(`  Equal (===): ${isCurrentUser}`);
-      console.log(`  Equal (string): ${isCurrentUserStrict}`);
-      console.log(`  Include in result: ${!isCurrentUserStrict}`);
-      
-      return !isCurrentUserStrict; // Use string comparison to be safe
-    });
-    
-    console.log(`\n📤 Returning ${otherPlayers.length} other players:`, otherPlayers.map(p => p.name));
-    console.log('---\n');
+    // Filter out the current user from the online players list
+    const otherPlayers = arenaData.onlinePlayers.filter(p => 
+      String(p.id) !== String(req.session.user.id)
+    );
     
     res.json(otherPlayers);
   } catch (error) {
@@ -1354,7 +1259,6 @@ async function refreshOnlinePlayersStats() {
     });
     
     await saveArenaData(arenaData);
-    console.log('🔄 Refreshed online players stats');
   } catch (error) {
     console.error('❌ Error refreshing online players stats:', error);
   }
@@ -1461,9 +1365,6 @@ app.get('/api/arena/leaderboard', async (req, res) => {
     const arenaData = await getArenaData();
     const users = await getUsers();
     
-    console.log('🏆 Loading leaderboard...');
-    console.log('📊 Players in arena data:', Object.keys(arenaData.players).length);
-    
     // Create user map
     const userMap = {};
     users.forEach(user => {
@@ -1506,8 +1407,6 @@ app.get('/api/arena/leaderboard', async (req, res) => {
     // Only return players who have at least one battle
     const activeLeaderboard = leaderboard.filter(player => player.totalBattles > 0);
     
-    console.log(`✅ Leaderboard loaded: ${activeLeaderboard.length} active players`);
-    
     res.json(activeLeaderboard);
   } catch (error) {
     console.error('❌ Error getting leaderboard:', error);
@@ -1520,7 +1419,6 @@ initializeDataFolder().then(async () => {
   // Synchronize arena stats on server startup
   try {
     await synchronizeArenaStats();
-    console.log('✅ Arena stats synchronized on startup');
   } catch (error) {
     console.error('⚠️ Could not synchronize arena stats on startup:', error);
   }
