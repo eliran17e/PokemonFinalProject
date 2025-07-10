@@ -1,25 +1,17 @@
 {
   "name": "pokemonfinalproject",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "main": "Server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node Server.js",
+    "dev": "node Server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eliran17e/PokemonFinalProject.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/eliran17e/PokemonFinalProject/issues"
-  },
-  "homepage": "https://github.com/eliran17e/PokemonFinalProject#readme",
   "dependencies": {
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "node-fetch": "^2.7.0"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
